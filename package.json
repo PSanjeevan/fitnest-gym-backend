@@ -1,0 +1,20 @@
+{
+  "name": "fitnest-gym-backend",
+  "version": "1.0.0",
+  "description": "FitNest Gym Locker System Backend - NU-AIAGAI2C-G01",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.22.3",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

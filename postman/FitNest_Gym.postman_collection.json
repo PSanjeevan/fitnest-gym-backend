@@ -1,0 +1,366 @@
+﻿{
+  "info": {
+    "name": "FitNest Gym Locker System (NU-AIAGAI2C-G01)",
+    "description": "Automated Postman test collection for FitNest Gym Locker System.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Twist Test 1: Sort Lockers by Name ASC (200, A to Z)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Lockers are sorted A to Z by name', function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.length).to.be.above(1);",
+              "    pm.expect(data[0].name.localeCompare(data[1].name)).to.be.at.most(0);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/lockers?sort=name&order=asc",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["lockers"],
+          "query": [
+            { "key": "sort", "value": "name" },
+            { "key": "order", "value": "asc" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "2. Twist Test 2: Sort Lockers by Name DESC (200, Z to A)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Lockers are sorted Z to A by name', function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.length).to.be.above(1);",
+              "    pm.expect(data[0].name.localeCompare(data[1].name)).to.be.at.least(0);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/lockers?sort=name&order=desc",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["lockers"],
+          "query": [
+            { "key": "sort", "value": "name" },
+            { "key": "order", "value": "desc" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "3. Twist Test 3: Sort by Unknown Field 'colour' (400 Error)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 400', function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "pm.test('Returns Cannot sort by that field message', function () {",
+              "    pm.expect(pm.response.text()).to.include('Cannot sort by that field');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/lockers?sort=colour",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["lockers"],
+          "query": [
+            { "key": "sort", "value": "colour" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Search Lockers by Floor (?floor=1)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('All returned lockers are on floor 1', function () {",
+              "    const data = pm.response.json();",
+              "    data.forEach(item => pm.expect(item.floor).to.eql(1));",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/lockers?floor=1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["lockers"],
+          "query": [
+            { "key": "floor", "value": "1" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "5. Get All Lockers (200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/lockers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["lockers"]
+        }
+      }
+    },
+    {
+      "name": "6. Get One Locker by ID (200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Returns locker with id 1', function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data.id).to.eql(1);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/lockers/1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["lockers", "1"]
+        }
+      }
+    },
+    {
+      "name": "7. Add Locker - Valid (201)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 201 Created', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "const json = pm.response.json();",
+              "if (json.id) { pm.collectionVariables.set('createdLockerId', json.id); }"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Locker Z99\",\n  \"floor\": 2\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/lockers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["lockers"]
+        }
+      }
+    },
+    {
+      "name": "8. Add Locker - Invalid Missing Floor (400 Validation Error)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 400 Bad Request', function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/lockers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["lockers"]
+        }
+      }
+    },
+    {
+      "name": "9. Update Locker (200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Locker Z99-Updated\",\n  \"floor\": 3\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/lockers/{{createdLockerId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["lockers", "{{createdLockerId}}"]
+        }
+      }
+    },
+    {
+      "name": "10. Delete Locker (200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/lockers/{{createdLockerId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["lockers", "{{createdLockerId}}"]
+        }
+      }
+    },
+    {
+      "name": "11. Join Endpoint: Get Allotments with Member & Locker Names (200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200 OK', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Includes member_name and locker_name from JOIN', function () {",
+              "    const data = pm.response.json();",
+              "    pm.expect(data[0]).to.have.property('member_name');",
+              "    pm.expect(data[0]).to.have.property('locker_name');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/allotments",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["allotments"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "createdLockerId",
+      "value": "4"
+    }
+  ]
+}
